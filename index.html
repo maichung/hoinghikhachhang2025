@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MOSCOW FEED — HỘI NGHỊ KHÁCH HÀNG 2025</title>
+  <style>
+    body{
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      margin:0;
+      background: #f6f8fb;
+    }
+    .card{
+      background:white;
+      padding:28px;
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      text-align:center;
+      width:320px;
+    }
+    h1{ margin:0 0 12px; font-size:20px; }
+    p{ color:#555; margin:0 0 20px; font-size:14px; }
+    .btn{
+      display:inline-block;
+      padding:10px 18px;
+      border-radius:8px;
+      text-decoration:none;
+      cursor:pointer;
+      border:none;
+      font-weight:600;
+      font-size:15px;
+    }
+    .btn-follow{ background:#1877f2; color:white; }
+    .btn-alt{ margin-left:8px; background:#e9ecef; color:#111; }
+    small{ display:block; margin-top:14px; color:#888; font-size:12px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Moscow Feed</h1>
+    <p>Nhấn nút bên dưới để follow page Facebook.</p>
+
+    <!-- OPTION A: trực tiếp redirect tới link khác (ví dụ https://example.com/thank-you) -->
+    <button class="btn btn-follow" id="followBtn">Follow Page Facebook</button>
+
+    <!-- ngoài ra có nút phụ để mở popup Facebook (tùy chọn) -->
+    <button class="btn btn-alt" id="popupBtn">Mở popup trước</button>
+
+    <small id="note">Hành vi: có thể mở Facebook hoặc chuyển tới trang khác.</small>
+  </div>
+
+  <script>
+    // ==== CẤU HÌNH: chỉnh 2 biến sau theo ý anh ====
+    const facebookPageUrl = "https://www.facebook.com/mcfeed.vn/"; // thay bằng link page Facebook thật
+    const redirectAfterClick = "http://gofile.me/6Reiy/K1ZwdCbm4"; // thay bằng link muốn redirect tới
+
+    // Option A: chỉ redirect tới link khác (khi bấm nút Follow)
+    document.getElementById("followBtn").addEventListener("click", function (e) {
+      // Cách 1 (đơn giản): chuyển thẳng trang hiện tại
+      window.location.href = redirectAfterClick;
+    });
+
+    // Option B: mở popup Facebook (để user có thể follow) rồi chuyển hướng chính
+    document.getElementById("popupBtn").addEventListener("click", function () {
+      // Mở popup Facebook (bị chặn nếu trình duyệt chặn popup; bật popups nếu cần)
+      const popup = window.open(facebookPageUrl, "fb_follow", "width=700,height=800");
+      // Nếu popup mở được, đợi 4s rồi chuyển trang chính; nếu block popup, fallback: chuyển thẳng
+      if (popup) {
+        setTimeout(() => {
+          // Nếu muốn, có thể kiểm tra popup.closed nhưng do cross-origin không kiểm tra được chi tiết
+          window.location.href = redirectAfterClick;
+        }, 4000); // đổi thời gian nếu muốn
+      } else {
+        // popup bị chặn -> chuyển thẳng
+        window.location.href = redirectAfterClick;
+      }
+    });
+  </script>
+</body>
+</html>
