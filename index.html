@@ -52,6 +52,7 @@
       color: #555;
       margin: 0 0 22px;
       font-size: 14px;
+      line-height: 1.5;
     }
     .btn {
       display: inline-block;
@@ -63,6 +64,8 @@
       font-weight: 600;
       font-size: 15px;
       transition: all 0.25s ease;
+      margin: 5px;
+      width: 85%;
     }
     .btn-follow {
       background: #1877f2;
@@ -72,12 +75,11 @@
       background: #0f62d9;
       transform: translateY(-2px);
     }
-    .btn-alt {
-      margin-left: 8px;
+    .btn-gallery {
       background: #e9ecef;
       color: #111;
     }
-    .btn-alt:hover {
+    .btn-gallery:hover {
       background: #d7dadf;
       transform: translateY(-2px);
     }
@@ -106,10 +108,12 @@
     />
 
     <h1>HỘI NGHỊ KHÁCH HÀNG MOSCOW FEED 2025</h1>
-    <p>Cảm ơn Quý Khách đã đồng hành cùng MOSCOW FEED.<br>Nhấn nút bên dưới để theo dõi fanpage và truy cập kho hình ảnh.</p>
+    <p>Cảm ơn Quý Khách đã đồng hành cùng MOSCOW FEED.<br>Chọn thao tác bên dưới:</p>
 
-    <button class="btn btn-follow" id="followBtn">Theo dõi & Truy cập kho hình ảnh</button>
-    <div id="msg" class="msg">Đang mở fanpage và chuyển hướng, vui lòng chờ...</div>
+    <button class="btn btn-follow" id="followBtn">Theo dõi Fanpage</button>
+    <button class="btn btn-gallery" id="galleryBtn">Truy cập kho hình ảnh</button>
+
+    <div id="msg" class="msg">Đang mở fanpage, vui lòng chờ...</div>
 
     <small>© MOSCOW FEED 2025 — Hợp tác bền vững cùng phát triển.</small>
   </div>
@@ -117,33 +121,39 @@
   <script>
     // ==== CẤU HÌNH ====
     const facebookPageUrl = "https://www.facebook.com/mcfeed.vn/"; // Fanpage chính thức
-    const redirectAfterClick = "https://drive.google.com/drive/folders/19Vaa09iiLQz4p54oYJX5HVqiUZB811ck?usp=sharing"; // Link kho hình ảnh
+    const galleryUrl = "https://drive.google.com/drive/folders/19Vaa09iiLQz4p54oYJX5HVqiUZB811ck?usp=sharing"; // Link kho hình ảnh
 
     const followBtn = document.getElementById("followBtn");
+    const galleryBtn = document.getElementById("galleryBtn");
     const msg = document.getElementById("msg");
 
+    // Nút theo dõi fanpage
     followBtn.addEventListener("click", function () {
-      msg.style.display = "block"; // Hiện thông báo
+      msg.style.display = "block";
       followBtn.disabled = true;
-      followBtn.textContent = "Đang xử lý...";
 
-      // Mở fanpage
       const popup = window.open(
         facebookPageUrl,
         "fb_follow",
         "width=720,height=820,noopener,noreferrer"
       );
 
-      // Nếu popup bị chặn → chuyển hướng luôn
       if (!popup) {
+        // Nếu popup bị chặn → chuyển hướng trực tiếp
         window.location.href = facebookPageUrl;
         return;
       }
 
-      // Sau 5 giây → chuyển tới kho hình ảnh
+      // Ẩn thông báo sau 5s (user đã có thời gian follow)
       setTimeout(() => {
-        window.location.href = redirectAfterClick;
+        msg.style.display = "none";
+        followBtn.disabled = false;
       }, 5000);
+    });
+
+    // Nút truy cập kho hình ảnh
+    galleryBtn.addEventListener("click", function () {
+      window.open(galleryUrl, "_blank", "noopener,noreferrer");
     });
   </script>
 </body>
