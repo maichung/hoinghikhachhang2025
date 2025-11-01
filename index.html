@@ -6,7 +6,7 @@
   <title>HỘI NGHỊ KHÁCH HÀNG MOSCOW FEED 2025</title>
 
   <!-- SEO + CHIA SẺ MẠNG XÃ HỘI -->
-  <meta name="description" content="Hội nghị khách hàng MOSCOW FEED 2025 - Gắn kết và phát triển cùng đối tác." />
+  <meta name="description" content="Hội nghị khách hàng MOSCOW FEED 2025 - Gắn kết hôm nay - Vững bước ngày mai." />
   <meta property="og:title" content="HỘI NGHỊ KHÁCH HÀNG MOSCOW FEED 2025" />
   <meta property="og:description" content="Cảm ơn Quý Khách Hàng đã đồng hành cùng MOSCOW FEED. Truy cập kho hình ảnh và khoảnh khắc ấn tượng của Hội nghị 2025." />
   <meta property="og:image" content="https://raw.githubusercontent.com/maichung/hoinghikhachhang2025/main/LOGO%20HNKH%202.png" />
@@ -81,6 +81,12 @@
       background: #d7dadf;
       transform: translateY(-2px);
     }
+    .msg {
+      display: none;
+      color: #1877f2;
+      font-size: 13px;
+      margin-top: 10px;
+    }
     small {
       display: block;
       margin-top: 14px;
@@ -100,35 +106,44 @@
     />
 
     <h1>HỘI NGHỊ KHÁCH HÀNG MOSCOW FEED 2025</h1>
-    <p>Cảm ơn Quý Khách đã đồng hành cùng MOSCOW FEED.<br>Nhấn nút bên dưới để truy cập kho hình ảnh.</p>
+    <p>Cảm ơn Quý Khách đã đồng hành cùng MOSCOW FEED.<br>Nhấn nút bên dưới để theo dõi fanpage và truy cập kho hình ảnh.</p>
 
-    <button class="btn btn-follow" id="galleryBtn">Truy cập kho hình ảnh</button>
-    <button class="btn btn-alt" id="popupBtn">Theo dõi Fanpage</button>
+    <button class="btn btn-follow" id="followBtn">Theo dõi & Truy cập kho hình ảnh</button>
+    <div id="msg" class="msg">Đang mở fanpage và chuyển hướng, vui lòng chờ...</div>
 
     <small>© MOSCOW FEED 2025 — Hợp tác bền vững cùng phát triển.</small>
   </div>
 
   <script>
     // ==== CẤU HÌNH ====
-    const facebookPageUrl = "https://www.facebook.com/mcfeed.vn/"; // link fanpage chính thức
-    const redirectAfterClick = "https://gofile.me/6Reiy/K1ZwdCbm4"; // link kho hình ảnh
+    const facebookPageUrl = "https://www.facebook.com/mcfeed.vn/"; // Fanpage chính thức
+    const redirectAfterClick = "https://gofile.me/6Reiy/K1ZwdCbm4"; // Link kho hình ảnh
 
-    // Nút 1: mở trực tiếp kho hình ảnh
-    document.getElementById("galleryBtn").addEventListener("click", function () {
-      window.open(redirectAfterClick, "_blank", "noopener,noreferrer");
-    });
+    const followBtn = document.getElementById("followBtn");
+    const msg = document.getElementById("msg");
 
-    // Nút 2: mở popup fanpage
-    document.getElementById("popupBtn").addEventListener("click", function () {
+    followBtn.addEventListener("click", function () {
+      msg.style.display = "block"; // Hiện thông báo
+      followBtn.disabled = true;
+      followBtn.textContent = "Đang xử lý...";
+
+      // Mở fanpage
       const popup = window.open(
         facebookPageUrl,
         "fb_follow",
-        "width=700,height=800,noopener,noreferrer"
+        "width=720,height=820,noopener,noreferrer"
       );
+
+      // Nếu popup bị chặn → chuyển hướng luôn
       if (!popup) {
-        // Nếu popup bị chặn, chuyển hướng thẳng
         window.location.href = facebookPageUrl;
+        return;
       }
+
+      // Sau 5 giây → chuyển tới kho hình ảnh
+      setTimeout(() => {
+        window.location.href = redirectAfterClick;
+      }, 5000);
     });
   </script>
 </body>
